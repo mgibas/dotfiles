@@ -7,8 +7,9 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 #Bash profile
-cp .bash_profile ~/.bash_profile
-cp .prompt_profile ~/.prompt_profile
+cp ./runcom/.bash_profile ~/.bash_profile
+cp ./runcom/.prompt_profile ~/.prompt_profile
+cp ./runcom/.inputrc ~/.inputrc
 
 source ./install.sh
 source ./git/setup.sh
