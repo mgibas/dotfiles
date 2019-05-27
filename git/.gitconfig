@@ -2,13 +2,19 @@
 [user]
   name = Maciej Gibas
   email = gibasmaciej@gmail.com
+
 [github]
   user = mgibas
-  token = GITHUB_TOKEN
+
 [credentail]
   helper = osxkeychain
+
+[core]
+  excludesfile = ~/.gitignore
+
 [push]
   followTags = true
+
 [alias]
 
   l = log --pretty=oneline -n 20 --graph --abbrev-commit
@@ -29,4 +35,4 @@
   amend = commit --amend --reuse-message=HEAD
   
 [mergetool]
-	keepBackup = false
+  keepBackup = false

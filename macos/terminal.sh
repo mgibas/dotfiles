@@ -1,18 +1,4 @@
-# Menu bar: show battery percentage
-defaults write com.apple.menuextra.battery ShowPercent YES
-
-# Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true
-
-# Require password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
-
-# MacOS dark theme
-defaults write -g AppleInterfaceStyle Dark
-
-#sudo console
-echo "auth sufficient pam_tid.so" | cat - /etc/pam.d/sudo | sudo tee /etc/pam.d/sudo
+#!/bin/sh
 
 # Use a modified version of the Solarized Dark theme by default in Terminal.app
 osascript <<EOD
@@ -26,7 +12,7 @@ tell application "Terminal"
 	(* Open the custom theme so that it gets added to the list
 	   of available terminal themes (note: this will open two
 	   additional terminal windows). *)
-	do shell script "open '$HOME/" & themeName & ".terminal'"
+	do shell script "open './" & themeName & ".terminal'"
 	(* Wait a little bit to ensure that the custom theme is added. *)
 	delay 1
 	(* Set the custom theme as the default terminal theme. *)
@@ -48,4 +34,3 @@ tell application "Terminal"
 end tell
 EOD
 
-killall SystemUIServer
