@@ -1,0 +1,32 @@
+# This is Git's per-user configuration file.
+[user]
+  name = Maciej Gibas
+  email = gibasmaciej@gmail.com
+[github]
+  user = mgibas
+  token = GITHUB_TOKEN
+[credentail]
+  helper = osxkeychain
+[push]
+  followTags = true
+[alias]
+
+  l = log --pretty=oneline -n 20 --graph --abbrev-commit
+  s = status -s
+  d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+  di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+  dump-branch = !"git branch -d $1 && git push --delete origin"
+
+  c = commit
+  pusht = !"git push && git push --tag";
+  p = pull --rebase
+  t = tag
+  
+  tags = tag -l
+  branches = branch -a
+  remotes = remote -v
+
+  amend = commit --amend --reuse-message=HEAD
+  
+[mergetool]
+	keepBackup = false
