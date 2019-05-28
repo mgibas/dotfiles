@@ -16,6 +16,7 @@ brew install git-lfs
 brew install node@10
 brew install yarn
 brew install nginx
+brew install dockutil
 
 #NPM Global packages
 npm install -g serve
