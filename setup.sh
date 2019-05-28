@@ -33,5 +33,5 @@ source ./setup.sh
 cd -
 
 cd ./dir
-source ./dir/setup.sh 
+source ./setup.sh 
 cd -

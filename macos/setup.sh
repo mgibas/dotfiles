@@ -2,7 +2,6 @@
 
 source ./defaults.sh
 source ./terminal.sh
-source ./alias.sh
 source ./dock.sh
 
 #sudo console
