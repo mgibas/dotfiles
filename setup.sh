@@ -9,27 +9,27 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 source ./install.sh
 
 cd ./runcom
-source ./runcom/setup.sh
+source ./setup.sh
 cd -
 
 cd ./git
-source ./git/setup.sh
+source ./setup.sh
 cd -
 
 cd ./macos
-source ./macos/setup.sh 
+source ./setup.sh 
 cd -
 
 cd ./vim
-source ./vim/setup.sh
+source ./setup.sh
 cd -
 
 cd ./nginx
-source ./nginx/setup.sh
+source ./setup.sh
 cd -
 
 cd ./sketchapp
-source ./sketchapp/setup.sh
+source ./setup.sh
 cd -
 
 cd ./dir
