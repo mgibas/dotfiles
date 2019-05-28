@@ -24,6 +24,7 @@ npm install -g markserv
 npm install -g @vue/cli
 
 #AppStore apps
+read -r -p "Please login to the AppStore manually and press enter when logged in..."
 mas install 441258766 #Magnet
 mas install 1333542190 #1Password
 mas install 1090488118 #Gemini
