@@ -12,6 +12,6 @@ dockutil --no-restart --add "/Applications/Notes.app"
 dockutil --no-restart --add "/Applications/App Store.app"
 dockutil --no-restart --add "/Applications/Utilities/Terminal.app"
 dockutil --no-restart --add "/Applications/Sketch.app"
-dockutil --no-restart --add "/Applications/Things.app"
+dockutil --no-restart --add "/Applications/Things3.app"
 
 killall Dock
