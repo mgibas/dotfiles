@@ -17,6 +17,7 @@ Plug 'mattn/emmet-vim'
 Plug 'danro/rename.vim'
 Plug 'posva/vim-vue'
 Plug 'othree/xml.vim'
+Plug 'vim-scripts/loremipsum'
 
 call plug#end() 
 
@@ -57,3 +58,23 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.vue'
 
 "Spell checking
 set spell
+
+"Configure ALE
+let g:ale_linter_aliases = {'vue': ['css', 'javascript']}
+let g:ale_linters = {'vue': ['stylelint', 'eslint']}
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'vue': ['eslint', 'stylelint']
+\}
+
+"Functions
+" Simple re-format for minified Javascript
+command! UnMinify call UnMinify()
+function! UnMinify()
+    %s/{\ze[^\r\n]/{\r/g
+    %s/){/) {/g
+    %s/};\?\ze[^\r\n]/\0\r/g
+    %s/;\ze[^\r\n]/;\r/g
+    %s/[^\s]\zs[=&|]\+\ze[^\s]/ \0 /g
+    normal ggVG=
+endfunction
