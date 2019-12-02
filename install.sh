@@ -11,6 +11,7 @@ echo "Configuring cask..."
 brew tap homebrew/cask-versions
 
 #Console apps
+brew install starship
 brew install git
 brew install git-lfs
 brew install node@10
@@ -39,4 +40,4 @@ brew cask install google-chrome
 brew cask install firefox
 brew cask install sketch
 brew cask install docker
-brew cask install parallels13
+#brew cask install parallels13
