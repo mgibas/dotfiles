@@ -9,6 +9,7 @@ brew install mas
 
 echo "Configuring cask..."
 brew tap homebrew/cask-versions
+brew tap homebrew/cask-fonts
 
 #Console apps
 brew install starship
@@ -36,6 +37,7 @@ mas install 409203825 #Numbers
 mas install 803453959 #Slack
 
 #Cask apps
+brew cask install font-fira-code
 brew cask install google-chrome
 brew cask install firefox
 brew cask install sketch
