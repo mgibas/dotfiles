@@ -1,8 +1,15 @@
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-## Completition
+## Completitions
+autoload -Uz compinit && compinit
 fpath=($(brew --prefix)/share/zsh-sie-functions $fpath)
+
+## Options
+setopt  autocd autopushd
+
+# case-insensitive (uppercase from lowercase) completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 ## Aliases
 alias g="git"
