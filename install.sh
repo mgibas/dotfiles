@@ -19,6 +19,8 @@ brew install node@10
 brew install yarn
 brew install nginx
 brew install dockutil
+brew install lf
+brew install zsh-syntax-highlighting
 
 #NPM Global packages
 npm install -g serve
