@@ -1,17 +1,16 @@
 #!/bin/sh
 
-# MANUAL STEPS:
+# MANUAL STEPS if this script fails:
 # - switch to Pro theme
 # - switch font to Fira Code 18pt
 # - change background to #141426
 
-# Use a modified version of the Solarized Dark theme by default in Terminal.app
 osascript <<EOD
 tell application "Terminal"
 	local allOpenedWindows
 	local initialOpenedWindows
 	local windowID
-	set themeName to "solarized"
+	set themeName to "fira"
 	(* Store the IDs of all the open terminal windows. *)
 	set initialOpenedWindows to id of every window
 	(* Open the custom theme so that it gets added to the list
