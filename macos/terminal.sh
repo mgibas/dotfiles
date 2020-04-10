@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# MANUAL STEPS:
+# - switch to Pro theme
+# - switch font to Fira Code 18pt
+# - change background to #141426
+
 # Use a modified version of the Solarized Dark theme by default in Terminal.app
 osascript <<EOD
 tell application "Terminal"
