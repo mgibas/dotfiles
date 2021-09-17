@@ -46,7 +46,7 @@ alias ....="cd ../../.."
 alias zcp='zmv -C'
 alias zln='zmv -L'
 
-alias ddc="docker-compose"
+alias ddc="docker compose"
 
 # Network
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
