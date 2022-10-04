@@ -6,7 +6,13 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-source ./install.sh
+cd ./homebrew
+source ./setup.sh
+cd -
+
+cd ./node
+source ./setup.sh
+cd -
 
 cd ./runcom
 source ./setup.sh
@@ -21,14 +27,6 @@ source ./setup.sh
 cd -
 
 cd ./vim
-source ./setup.sh
-cd -
-
-cd ./nginx
-source ./setup.sh
-cd -
-
-cd ./sketchapp
 source ./setup.sh
 cd -
 

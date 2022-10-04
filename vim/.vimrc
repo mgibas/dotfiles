@@ -1,6 +1,3 @@
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-scripts/matchit.zip'
@@ -14,10 +11,8 @@ Plug 'kien/ctrlp.vim'
 Plug 'mattn/emmet-vim'
 Plug 'danro/rename.vim'
 Plug 'posva/vim-vue'
-Plug 'leafgarland/typescript-vim'
-Plug 'ianks/vim-tsx'
 Plug 'othree/xml.vim'
-Plug 'vim-scripts/loremipsum'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 call plug#end() 
 
@@ -75,6 +70,15 @@ function! UnMinify()
 endfunction
 
 "Theme setup
-set background=dark
-let g:solarized_termtrans=1
-colorscheme solarized8
+
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
+
+syntax on
+set t_Co=256
+set cursorline
+colorscheme onehalfdark
+let g:airline_theme='onehalfdark'
