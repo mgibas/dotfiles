@@ -16,3 +16,5 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 compinit
 _comp_options+=(globdots)
+
+eval "$(starship init zsh)"
