@@ -5,16 +5,16 @@
 [github]
   user = mgibas
 
-[credentail]
-  helper = osxkeychain
-
-[core]
-  excludesfile = ~/.gitignore
-
 [push]
   followTags = true
   default = current
   
+[pull]
+  rebase = true
+
+[rebase]
+  autoStash = true
+
 [mergetool]
   keepBackup = false
 
@@ -34,3 +34,11 @@
   branches = branch -a
   remotes = remote -v
   amend = commit --amend --reuse-message=HEAD
+
+[credential "https://github.com"]
+  helper =
+  helper = !/opt/homebrew/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+  helper =
+  helper = !/opt/homebrew/bin/gh auth git-credential

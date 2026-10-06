@@ -1,11 +1,10 @@
 #!/bin/sh
 
-if test ! $(which brew); then
+if ! command -v brew >/dev/null; then
     echo "Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-read -r -p "Please login to the AppStore manually and press enter when logged in..."
 brew update
-brew install mas
 brew bundle
