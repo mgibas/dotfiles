@@ -53,8 +53,11 @@ closes TICKET-ID - if it resolves provided ticket
 
 ### Worktrees
 
-- Do every code change in a new git worktree. Before the first edit, run `git -C <repo> fetch origin` and create the worktree from `origin/main` with a branch `mg/<ticket-id>-<slug>`.
-- Do not reuse an existing worktree. Do not edit files in the main checkout.
+- Do each code change in a git repo in a worktree for that task. Do not edit files in the main checkout.
+- If the session already runs in a worktree for this task, use it. If the task continues an existing branch, use the worktree of that branch, or create one for it.
+- Otherwise, before the first edit, run `git -C <repo> fetch origin` and `git -C <repo> worktree add -b mg/<ticket-id>-<slug> ~/.worktrees/<repo-name>/<slug> origin/HEAD`. If there is no ticket, use `mg/<slug>`.
+- Then use the worktree root as `workdir` for each shell command, and use absolute paths in the worktree for each `apply_patch`.
+- Do not use a worktree of a different task.
 
 ## GitHub CLI
 
