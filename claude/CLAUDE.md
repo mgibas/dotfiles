@@ -91,3 +91,4 @@ closes TICKET-ID - if it resolves provided ticket
 
 # Agent Environment: Herdr Multiplexer
 When `HERDR_ENV=1` is set, load the `herdr` skill before you start a dev server, a long test run, or a parallel agent. Run it in a sibling pane, not as a background Bash command. This rule applies when I do not mention Herdr.
+Close each pane you created with `herdr pane close` when its command finishes and you have read the output. Close a dev server pane when the task ends, unless I ask to keep it.
