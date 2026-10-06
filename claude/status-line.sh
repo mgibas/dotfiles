@@ -128,7 +128,7 @@ refresh_pr_cache() {
     while IFS=$'\t' read -r repo number url; do
         checks=$(gh pr checks "$number" -R "$repo" --json bucket 2>/dev/null)
         [ -n "$checks" ] || checks='[]'
-        gh pr view "$number" -R "$repo" --json number,author,state,isDraft,reviewDecision,title 2>/dev/null \
+        gh pr view "$number" -R "$repo" --json number,author,state,isDraft,reviewDecision,latestReviews,reviewRequests,title 2>/dev/null \
             | jq -r --arg url "$url" --arg me "$me" --argjson checks "$checks" '
                 select(.author.login == $me)
                 | ($checks | map(select(.bucket == "fail" or .bucket == "cancel")) | length) as $failed
@@ -139,7 +139,13 @@ refresh_pr_cache() {
                      elif $pending > 0 then "pending:\($pending)"
                      elif ($checks | length) > 0 then "passed"
                      else "none" end),
-                    (if .state != "OPEN" then .state elif .isDraft then "DRAFT" elif (.reviewDecision // "") == "" then "NONE" else .reviewDecision end),
+                    (if .state != "OPEN" then .state
+                     elif .isDraft then "DRAFT"
+                     elif (.reviewDecision // "") != "" then .reviewDecision
+                     elif any(.latestReviews[]; .state == "CHANGES_REQUESTED") then "CHANGES_REQUESTED"
+                     elif any(.latestReviews[]; .state == "APPROVED") then "APPROVED"
+                     elif (.reviewRequests | length) > 0 then "REVIEW_REQUIRED"
+                     else "NONE" end),
                     (.title | gsub("\t"; " "))
                   ] | @tsv' >> "$tmp"
     done <<< "$prs"
@@ -174,7 +180,7 @@ render_pr_rows() {
             CLOSED)            review_label="${DIM}closed" ;;
             APPROVED)          review_label="${GREEN}approved" ;;
             CHANGES_REQUESTED) review_label="${RED}changes requested" ;;
-            REVIEW_REQUIRED)   review_label="${YELLOW}review" ;;
+            REVIEW_REQUIRED)   review_label="${YELLOW}in review" ;;
             DRAFT)             review_label="${DIM}draft" ;;
             *)                 review_label="${DIM}no review" ;;
         esac
