@@ -1,0 +1,38 @@
+# --- Typography ---
+  font-family = JetBrainsMono Nerd Font
+  font-size = 14
+  font-thicken = true
+  adjust-cell-height = 2
+
+# --- Theme and Colors ---
+# Catppuccin with automatic light/dark switching
+  theme = light:Catppuccin Latte,dark:Catppuccin Mocha
+
+
+# --- Window and Appearance ---
+  background-opacity = 0.9
+  background-blur-radius = 20
+  macos-titlebar-style = transparent
+  window-padding-x = 10
+  window-padding-y = 8
+  window-save-state = always
+  window-theme = auto
+
+# --- Cursor ---
+  cursor-style = bar
+  cursor-style-blink = true
+  cursor-opacity = 0.8
+
+# --- Mouse ---
+  mouse-hide-while-typing = true
+  copy-on-select = clipboard
+
+# --- Keybindings ---
+  keybind = shift+enter=text:\x1b\r
+
+# --- Shell Integration ---
+  shell-integration = detect
+
+# --- Performance ---
+  # Generous scrollback (25MB)
+  scrollback-limit = 25000000

@@ -1,0 +1,12 @@
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+
+[features]
+hooks = true
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = ["chrome-devtools-mcp@latest", "--autoConnect"]
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"

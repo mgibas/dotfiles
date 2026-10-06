@@ -1,0 +1,40 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "bash ~/.config/herdr/hooks/tab-title.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bash ~/.claude/hooks/worktree-fast-forward.sh",
+            "statusMessage": "Fast-forwarding worktree to origin",
+            "timeout": 60,
+            "type": "command"
+          }
+        ],
+        "matcher": "startup"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "apply_patch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/require-worktree.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

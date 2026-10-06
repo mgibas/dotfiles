@@ -2,7 +2,9 @@
 
 source ./defaults.sh
 
-#sudo console
-echo "auth sufficient pam_tid.so" | cat - /etc/pam.d/sudo | sudo tee /etc/pam.d/sudo
+if ! grep -qs '^auth.*pam_tid.so' /etc/pam.d/sudo_local; then
+  sed 's/^#auth/auth/' /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local >/dev/null
+fi
 
+killall Dock
 killall SystemUIServer

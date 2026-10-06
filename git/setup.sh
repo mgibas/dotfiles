@@ -1,4 +1,5 @@
 #!/bin/sh
 
-cp .gitignore ~/.gitignore
+mkdir -p ~/.config/git
+cp ignore ~/.config/git/ignore
 cp .gitconfig ~/.gitconfig
