@@ -6,6 +6,7 @@ cp hooks/tab-title.sh ~/.config/herdr/hooks/tab-title.sh
 
 herdr integration install claude
 herdr integration install codex
+herdr integration install opencode
 
 mkdir -p ~/.claude/skills/herdr ~/.agents/skills/herdr
 herdr --skill > ~/.claude/skills/herdr/SKILL.md
