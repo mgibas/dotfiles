@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { addSessionPR, parsePRCommand, parsePullRequestURL, removeSessionPR } from "./registry.js";
+import { addSessionPR, isDismissed, parsePRCommand, parsePullRequestURL, removeSessionPR } from "./registry.js";
 
 const url = "https://github.com/Example/Project/pull/12";
 
@@ -30,22 +30,39 @@ test("parses slash input and argument-only input", () => {
 test("stores unique PRs with explicit provenance and keeps sessions separate", () => {
   const registry = { sessions: {} };
   const reference = { ...parsePullRequestURL(url), title: "Title" };
-  assert.equal(addSessionPR(registry, "ses_first", reference, 123), true);
-  assert.equal(addSessionPR(registry, "ses_first", reference, 456), false);
-  assert.equal(addSessionPR(registry, "ses_second", reference, 456), true);
+  assert.equal(addSessionPR(registry, "ses_first", reference, { addedAt: 123 }), true);
+  assert.equal(addSessionPR(registry, "ses_first", reference, { addedAt: 456 }), false);
+  assert.equal(addSessionPR(registry, "ses_second", reference, { source: "created", addedAt: 456 }), true);
   assert.equal(registry.sessions.ses_first.length, 1);
   assert.equal(registry.sessions.ses_first[0].source, "manual");
   assert.equal(registry.sessions.ses_first[0].addedAt, 123);
+  assert.equal(registry.sessions.ses_second[0].source, "created");
   assert.equal(removeSessionPR(registry, "ses_first", reference.key), true);
   assert.equal(registry.sessions.ses_first, undefined);
   assert.equal(registry.sessions.ses_second.length, 1);
   assert.equal(removeSessionPR(registry, "ses_first", reference.key), false);
 });
 
+test("removal dismisses a PR for that session and a manual add restores it", () => {
+  const registry = { sessions: {} };
+  const reference = { ...parsePullRequestURL(url), title: "Title" };
+  addSessionPR(registry, "ses_first", reference, { source: "created" });
+  addSessionPR(registry, "ses_second", reference, { source: "created" });
+  removeSessionPR(registry, "ses_first", reference.key);
+  assert.equal(isDismissed(registry, "ses_first", reference.key), true);
+  assert.equal(isDismissed(registry, "ses_second", reference.key), false);
+  addSessionPR(registry, "ses_first", reference, { source: "created" });
+  assert.equal(isDismissed(registry, "ses_first", reference.key), true);
+  addSessionPR(registry, "ses_first", reference);
+  assert.equal(isDismissed(registry, "ses_first", reference.key), false);
+  assert.equal(registry.dismissed.ses_first, undefined);
+});
+
 test("registered entries survive JSON persistence", () => {
   const registry = { sessions: {} };
-  addSessionPR(registry, "ses_first", { ...parsePullRequestURL(url), title: "Title" }, 123);
+  addSessionPR(registry, "ses_first", { ...parsePullRequestURL(url), title: "Title" }, { addedAt: 123 });
   const restored = JSON.parse(JSON.stringify(registry));
   assert.deepEqual(restored, registry);
   assert.equal(removeSessionPR(restored, "ses_first", parsePullRequestURL(url).key), true);
+  assert.deepEqual(JSON.parse(JSON.stringify(restored)).dismissed, { ses_first: ["example/project#12"] });
 });

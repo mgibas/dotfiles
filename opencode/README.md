@@ -15,7 +15,13 @@ Each row has a PR link, clickable title, colored review state, and check results
 
 Without a URL, `/pr add` asks for one and `/pr remove` opens a selection list. Commands run locally in the terminal interface. They do not send a model prompt or change GitHub.
 
-PR registration is explicit. Register a PR with `/pr add` after you create it. Sessions start with an empty list; add any existing PRs you want to track.
+## Automatic registration
+
+The plugin adds a PR automatically when a shell command in the session runs `gh pr create`, exits with code 0, and prints the PR URL. This includes agent commands and `!` shell commands. The plugin scans the session history when the sidebar opens, and it watches new messages.
+
+The plugin ignores PR URLs in other output, such as `gh pr list` results or file contents. It adds only PRs that the signed-in GitHub user authored. Use `/pr add` for PRs created outside the session, for example in the GitHub web interface.
+
+`/pr remove` stops automatic registration of that PR for the session. `/pr add` registers it again.
 
 The plugin requires OpenCode V2 and an authenticated GitHub CLI (`gh auth status`).
 

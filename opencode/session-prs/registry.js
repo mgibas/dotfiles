@@ -30,10 +30,26 @@ export function parsePRCommand(input = "") {
   return { action, url: parts[1] };
 }
 
-export function addSessionPR(registry, sessionID, reference, addedAt = Date.now()) {
+function dismissedKeys(registry, sessionID) {
+  return registry.dismissed?.[sessionID] ?? [];
+}
+
+export function isDismissed(registry, sessionID, key) {
+  return dismissedKeys(registry, sessionID).includes(key);
+}
+
+function restoreSessionPR(registry, sessionID, key) {
+  if (!isDismissed(registry, sessionID, key)) return;
+  const remaining = dismissedKeys(registry, sessionID).filter((dismissed) => dismissed !== key);
+  if (remaining.length) registry.dismissed[sessionID] = remaining;
+  else delete registry.dismissed[sessionID];
+}
+
+export function addSessionPR(registry, sessionID, reference, { source = "manual", addedAt = Date.now() } = {}) {
+  if (source === "manual") restoreSessionPR(registry, sessionID, reference.key);
   const references = registry.sessions[sessionID] ?? [];
   if (references.some(({ key }) => key === reference.key)) return false;
-  registry.sessions[sessionID] = [...references, { ...reference, source: "manual", addedAt }];
+  registry.sessions[sessionID] = [...references, { ...reference, source, addedAt }];
   return true;
 }
 
@@ -43,5 +59,7 @@ export function removeSessionPR(registry, sessionID, key) {
   const remaining = references.filter((reference) => reference.key !== key);
   if (remaining.length) registry.sessions[sessionID] = remaining;
   else delete registry.sessions[sessionID];
+  registry.dismissed ??= {};
+  registry.dismissed[sessionID] = [...dismissedKeys(registry, sessionID), key];
   return true;
 }

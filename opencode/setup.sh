@@ -6,7 +6,7 @@ config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
 mkdir -p "$config_dir/session-prs"
 cp AGENTS.md "$config_dir/AGENTS.md"
 cp opencode.json "$config_dir/opencode.json"
-cp session-prs/package.json session-prs/status.js session-prs/registry.js session-prs/commands.js session-prs/tui.tsx "$config_dir/session-prs/"
+cp session-prs/package.json session-prs/status.js session-prs/registry.js session-prs/commands.js session-prs/discovery.js session-prs/tui.tsx "$config_dir/session-prs/"
 
 config="$config_dir/cli.json"
 if [ ! -f "$config" ]; then

@@ -1,6 +1,7 @@
 import { Plugin } from "@opencode/plugin/tui";
-import { For, Show, createEffect, createSignal, onCleanup } from "solid-js";
+import { ErrorBoundary, For, Show, createEffect, createSignal, onCleanup, untrack } from "solid-js";
 import { createPRCommand } from "./commands.js";
+import { createDiscovery, createdPullRequests, readCreatedPullRequests } from "./discovery.js";
 import { parsePullRequestURL } from "./registry.js";
 import { readPullRequests } from "./status.js";
 
@@ -11,9 +12,10 @@ export default Plugin.define({
   id: "mg.session-prs",
   setup(context) {
     const [registry, updateRegistry] = context.storage.store("registry", {
-      initial: { sessions: {} as Record<string, Reference[]> },
+      initial: { sessions: {} as Record<string, Reference[]>, dismissed: {} as Record<string, string[]> },
     });
     const command = createPRCommand(context, registry, updateRegistry);
+    const discovery = createDiscovery(registry, updateRegistry);
     const stopCommands = context.ui.slot({
       append: "app",
       render: () => {
@@ -35,6 +37,21 @@ export default Plugin.define({
     function PullRequests(props: { sessionID: string }) {
       const [rows, setRows] = createSignal<PullRequest[]>([]);
       const [notice, setNotice] = createSignal("");
+
+      createEffect(() => {
+        const sessionID = props.sessionID;
+        const controller = new AbortController();
+        void readCreatedPullRequests(context.client, sessionID, AbortSignal.any([
+          controller.signal, AbortSignal.timeout(30_000),
+        ])).then((found) => discovery.register(sessionID, found, controller.signal)).catch(() => {});
+        onCleanup(() => controller.abort());
+      });
+
+      createEffect(() => {
+        const sessionID = props.sessionID;
+        const found = createdPullRequests(context.data.session.message.list(sessionID));
+        untrack(() => void discovery.register(sessionID, found));
+      });
 
       createEffect(() => {
         const sessionID = props.sessionID;
@@ -75,8 +92,8 @@ export default Plugin.define({
 
       const color = (tone: string) => {
         if (tone === "muted") return context.theme.text.muted;
-        if (tone === "accent") return context.theme.hue.purple[300];
-        if (tone === "info") return context.theme.hue.blue[300];
+        if (tone === "accent") return (context.theme.hue.purple ?? context.theme.hue.accent)[300];
+        if (tone === "info") return context.theme.text.feedback.info.base;
         return context.theme.text.feedback[tone as "success" | "warning" | "error"].base;
       };
 
@@ -119,10 +136,17 @@ export default Plugin.define({
 
     const stopSidebar = context.ui.slot({
       prepend: "sidebar.content",
-      render: (props) => <PullRequests sessionID={props.sessionID} />,
+      render: (props) => (
+        <ErrorBoundary fallback={(error) => (
+          <text fg={context.theme.text.feedback.error.base} wrapMode="word">Session PRs failed: {String(error?.message ?? error)}</text>
+        )}>
+          <PullRequests sessionID={props.sessionID} />
+        </ErrorBoundary>
+      ),
     });
     return () => {
       command.dispose();
+      discovery.dispose();
       stopCommands();
       stopSidebar();
     };

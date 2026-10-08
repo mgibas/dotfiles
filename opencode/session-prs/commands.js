@@ -14,7 +14,7 @@ export function createPRCommand(context, registry, updateRegistry, { validate = 
       if (command.action === "help") {
         await context.ui.dialog.alert({
           title: "Session PR commands",
-          message: "/pr add <url> — link an existing PR\n/pr remove <url> — remove a link\n/pr list — show this session’s links\n\nThese commands do not change GitHub.",
+          message: "/pr add <url> — link an existing PR\n/pr remove <url> — remove a link\n/pr list — show this session’s links\n\nPRs created in this session with gh pr create are added automatically. These commands do not change GitHub.",
         });
         return;
       }
@@ -23,7 +23,7 @@ export function createPRCommand(context, registry, updateRegistry, { validate = 
         const references = registry.sessions[sessionID] ?? [];
         await context.ui.dialog.alert({
           title: "Session PRs",
-          message: references.length ? references.map((pr) => `${pr.repository}#${pr.number}\n${pr.title}\n${pr.url}`).join("\n\n") : "No PRs are linked to this session",
+          message: references.length ? references.map((pr) => `${pr.repository}#${pr.number}\n${pr.title}\n${pr.url}\n${pr.source === "created" ? "Created in this session" : "Added manually"}`).join("\n\n") : "No PRs are linked to this session",
         });
         return;
       }
