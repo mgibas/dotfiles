@@ -1,0 +1,11 @@
+{
+  "name": "opencode-session-prs",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tui": "./tui.tsx"
+  },
+  "scripts": {
+    "test": "node --test *.test.js"
+  }
+}
