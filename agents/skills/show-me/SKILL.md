@@ -1,9 +1,11 @@
 ---
 name: show-me
-description: Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts.
+description: Explain the current topic with concise code diagrams and sketches. Use visualize when available for richer graphics and interactive explanations.
 ---
 
 Help the user understand the current topic of conversation visually. Skip the preamble and keep prose brief. Pick the smallest view that makes the key point clear.
+
+Use Markdown for code sketches and tables. Use Mermaid when labeled nodes and edges fully explain the structure.
 
 - Show logic or an algorithm as pseudocode:
 
@@ -114,11 +116,15 @@ function expandSkill(command: string): string {
 }
 ```
 
-- For a visual UI, layout, state comparison, or concept too dense for Mermaid, write one focused HTML file — a diagram, an infographic, or a short slide deck, whichever fits the point. Match the product's colors, type, spacing, and components; use real labels and data; support desktop and mobile. Then open it for the user:
+- For charts, simulations, maps, UI mockups, or concepts that need richer graphics, load the available `visualize` skill (`visualize:visualize` in a namespaced skill list). Follow its composition, interaction, theme, and accessibility guidance. Load it only when the graphic materially improves the explanation.
 
-```
-Bash(open path/to/show-me-{description}.html)
-```
+- Use the output format supported by the current host:
+
+  - In T3 Code, write a complete, self-contained HTML document. Check it with `html_preview`, then publish it with `html_render` before the final reply. Use T3's rendering contract and theme variables. Keep controls local unless the host supplies an API for the requested action.
+  - In a host that supports the `visualize` inline output contract, follow that contract.
+  - If `visualize` is unavailable, use the code views above or the host's inline HTML tools. If inline HTML is also unavailable, write one portable HTML file and open it for the user. Use real labels and data, match the product when relevant, and support desktop and mobile.
+
+- Build a requested standalone file or project change in its target location. Use inline graphics to explain or explore a design when that is the user's request.
 
 ### guidance
 

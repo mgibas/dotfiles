@@ -1,7 +1,7 @@
 #!/bin/sh
 
 mkdir -p ~/.claude
-cp -R skills ~/.claude/
+(cd ../agents && sh ./setup.sh) || exit 1
 cp -R hooks ~/.claude/
 cp CLAUDE.md ~/.claude/CLAUDE.md
 mkdir -p ~/.worktrees
