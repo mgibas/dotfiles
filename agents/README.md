@@ -1,7 +1,7 @@
 # Shared skills
 
-The three generic skills in `agents/skills/` are the source for Codex and Claude Code:
-`show-me`, `pull-repos`, and `usage-review`.
+The two generic skills in `agents/skills/` are the source for Codex and Claude Code:
+`show-me` and `pull-repos`.
 Edit those files in this repository.
 
 From the repository root, install the links:
@@ -23,5 +23,4 @@ Keep this checkout at the same path while its links are in use.
 Existing Claude script paths remain valid. Scheduled tasks can keep those paths.
 Reload skills or restart the provider session if the skills do not appear.
 
-Provider-specific tools, permissions, and history sources still apply.
-`usage-review` reads Claude Code history.
+Provider-specific tools and permissions still apply.
